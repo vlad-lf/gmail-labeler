@@ -8,7 +8,7 @@ var filters = [
   // use the subject shortcut to check the subject for text
   // { name: 'finance', subject: 'bank', markRead: true }, // label all emails with "bank" in the subject as "finance" and mark as read
   
-  { match: /From:\s([^\s]?)/} // label all emails by first character of the sender
+  { match: /From:\s([^=\s]+?)/} // label all emails by first character of the sender
 
 ];
 
@@ -22,7 +22,7 @@ function labeler() {
 
   var batchSize = 50;
   var labelCache = {};
-  var query = "in:inbox has:nouserlabels AND (" + from.join(' OR ') + ")";
+  var query = "in:inbox has:nouserlabels -from:secret.santa.mzm AND (" + from.join(' OR ') + ")";
   var threads = GmailApp.search(query, 0, batchSize);
   GmailApp.getMessagesForThreads(threads);
 
@@ -63,7 +63,7 @@ function labeler() {
       if (matches !== null) {
 
         // label will be regex match or name provided
-        var label = filter.name || matches[1];
+        var label = filter.name || matches[1].toLowerCase();
         if (label !== undefined) applyLabel(label, thread);
 
         // toggle flags
