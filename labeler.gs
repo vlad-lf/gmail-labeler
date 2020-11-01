@@ -7,12 +7,15 @@ var filters = [
 
   // use the subject shortcut to check the subject for text
   // { name: 'finance', subject: 'bank', markRead: true }, // label all emails with "bank" in the subject as "finance" and mark as read
+  
+  { match: /From:\s([^\s]?)/} // label all emails by first character of the sender
 
 ];
 
 var from = [
   // "from:email@domain.com",
   // "list:subscription.domain.com"
+  "after:2020/01/01"
 ];
 
 function labeler() {
